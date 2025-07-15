@@ -1,4 +1,5 @@
 import sys
+import pyperclip
 
 def swap_chairs_xgid(xgid):
     """
@@ -74,18 +75,22 @@ def swap_chairs_xgid(xgid):
 
 def main():
     debug_mode = False
+    clipboard_mode = False
     xgid = None
     
     # Parse command line arguments
     for arg in sys.argv[1:]:
         if arg == "-d":
             debug_mode = True
+        elif arg == "-c":
+            clipboard_mode = True
         elif not arg.startswith("-"):
             xgid = arg
     
     if xgid is None:
-        print("Usage: python xgid-swap-chairs.py [-d] <XGID>")
+        print("Usage: python xgid-swap-chairs.py [-d] [-c] <XGID>")
         print("  -d: debug mode (show input and output labels)")
+        print("  -c: copy output to clipboard")
         print("Example:")
         print("python xgid-swap-chairs.py XGID=-a---aE-D---dD---c-d-AbA--:1:-1:1:41:0:2:0:5:10")
         return
@@ -97,6 +102,11 @@ def main():
         print(f"Output: {swapped}")
     else:
         print(swapped)
+    
+    if clipboard_mode:
+        pyperclip.copy(swapped)
+        if debug_mode:
+            print("(Output copied to clipboard)")
 
 if __name__ == "__main__":
     main()
